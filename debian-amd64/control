@@ -1,0 +1,98 @@
+Source: qt-everywhere-src
+Section: libs
+Priority: optional
+Maintainer: Enrico Zini <enrico@truelite.it>
+Build-Depends: debhelper (>= 11), dh-exec, dpkg-dev (>= 1.17.14),
+# qt5-default build-dependencies in Debian, minus packages that bring in Qt
+# tools and libraries from Debian, like pkg-kde-tools
+#
+# Grouping follows documentation on https://wiki.qt.io/Building_Qt_5_from_Git
+#
+  default-libmysqlclient-dev, firebird-dev [kfreebsd-any linux-any], freetds-dev,
+  libpq-dev, libsqlite3-dev, unixodbc-dev,
+  libasound2-dev [linux-any], libpulse-dev,
+  libatspi2.0-dev,
+  libcups2-dev,
+  libdbus-1-dev,
+  libdouble-conversion-dev,
+  libfontconfig1-dev, libfreetype6-dev,
+  libgbm-dev [linux-any kfreebsd-any],
+  libgl1-mesa-dev, libgles2-mesa-dev, libglu1-mesa-dev | libglu-dev,
+  libglib2.0-dev, libgtk-3-dev,
+  libharfbuzz-dev (>= 1.6.0~),
+  libicu-dev,
+  libjpeg-dev, libpng-dev,
+  libpcre2-dev,
+  libproxy-dev,
+  libssl-dev,
+  zlib1g-dev,
+  libmtdev-dev [linux-any],
+  libinput-dev [linux-any],
+  libudev-dev [linux-any],
+  libvulkan-dev [linux-any],
+  libx11-dev, libx11-xcb-dev, libxcb-icccm4-dev, libxcb-image0-dev,
+  libxcb-keysyms1-dev, libxcb-randr0-dev, libxcb-render-util0-dev,
+  libxcb-render0-dev, libxcb-shape0-dev, libxcb-shm0-dev, libxcb-sync-dev,
+  libxcb-xfixes0-dev, libxcb-xinerama0-dev, libxcb-xkb-dev, libxcb1-dev,
+  libxext-dev, libxi-dev, libxkbcommon-dev, libxkbcommon-x11-dev,
+  libxrender-dev,
+  publicsuffix,
+#
+# More libxcb
+#
+  libxcb-glx0-dev, libxcb-xinput-dev,
+#
+# Qt Webkit build-dependencies
+#
+  flex, bison, gperf,
+  libxslt1-dev,
+  ruby,
+#
+# Qt WebEngine build-dependencies
+#
+  libxcursor-dev, libxcomposite-dev, libxdamage-dev, libxrandr-dev, libcap-dev,
+  libxtst-dev, libpci-dev, libnss3-dev, libxss-dev, libegl1-mesa-dev,
+#
+# Qt Multimedia build-dependencies
+#
+  libgstreamer-plugins-base1.0-dev, libgstreamer1.0-dev,
+#
+# QDoc Documentation Generator Tool
+#
+  libclang-dev, llvm,
+#
+# These libraries aren't necessarily documented but config looks for them
+#
+  libts-dev, libmng-dev, libwebp-dev, libbluetooth-dev, libpoppler-cpp-dev,
+  libjsoncpp-dev, libevent-dev, libxml2-dev, libminizip-dev, ninja-build,
+  libre2-dev, libprotobuf-dev, libsnappy-dev, libopus-dev,
+  libdrm-dev [linux-any], libzstd-dev, libsystemd-dev, flite1-dev, libspeechd-dev,
+  libavcodec-dev, libavdevice-dev, libavfilter-dev, libavformat-dev, libavresample-dev, libavutil-dev
+Standards-Version: 4.5.0
+
+Package: libqt5custom
+Architecture: any
+Multi-Arch: same
+Pre-Depends: ${misc:Pre-Depends}
+Depends: fontconfig, ${misc:Depends}, ${shlibs:Depends}
+Description: Qt 5 runtime (Custom version)
+ Qt is a cross-platform C++ application framework. Qt's primary feature
+ is its rich set of widgets that provide standard GUI functionality.
+ .
+ The QtGui module extends QtCore with GUI functionality.
+
+Package: qtbase5custom-dev
+Architecture: any
+Multi-Arch: same
+Section: libdevel
+Depends: libqt5custom (= ${binary:Version}),
+         qtchooser, ${misc:Depends}
+Description: Qt 5 development files (Custom version)
+ Qt is a cross-platform C++ application framework. Qt's primary feature
+ is its rich set of widgets that provide standard GUI functionality.
+ .
+ This package contains the header development files used for building Qt 5
+ applications.
+ .
+ If you are interested in packaging Qt 5 stuff please take a look at
+ https://qt-kde-team.pages.debian.net/packagingqtbasedstuff.html

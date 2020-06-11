@@ -1,0 +1,8 @@
+opt/qt5custom/lib/libQt5*.so.*
+opt/qt5custom/plugins/*/*.so
+opt/qt5custom/qml/*
+opt/qt5custom/translations/*
+opt/qt5custom/phrasebooks/*
+opt/qt5custom/libexec/*
+opt/qt5custom/resources/*
+debian/qt_custom.conf /etc/ld.so.conf.d/
