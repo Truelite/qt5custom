@@ -1,7 +1,7 @@
 opt/qt5custom/lib/libQt5*.prl
 opt/qt5custom/lib/libQt5*.so
 opt/qt5custom/lib/libQt5*.a
-opt/qt5custom/lib/cmake/*/*.cmake
+opt/qt5custom/lib/cmake/
 opt/qt5custom/lib/pkgconfig/*.pc
 opt/qt5custom/mkspecs/*
 opt/qt5custom/include/*
