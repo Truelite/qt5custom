@@ -1,0 +1,39 @@
+#!/usr/bin/make -f
+
+# Uncomment this to turn on verbose mode.
+#export DH_VERBOSE=1
+
+# Use already defined DEB_HOST_* variables.
+include /usr/share/dpkg/architecture.mk
+
+# Use already defined upstream version as DEB_VERSION_UPSTREAM.
+include /usr/share/dpkg/pkg-info.mk
+
+%:
+	dh $@
+
+override_dh_auto_install-arch:
+	# Copy the runtime part from the cross-build environment currently installed
+	mkdir -p $(CURDIR)/debian/tmp/opt/qt5custom-armhf/bin/
+	for pkg in xmlpatterns qtplugininfo qtdiag qmlscene qdbus qml qmlpreview qdbusviewer; do cp /opt/qt5custom-armhf/bin/$$pkg $(CURDIR)/debian/tmp/opt/qt5custom-armhf/bin/; done
+	mkdir -p $(CURDIR)/debian/tmp/opt/qt5custom-armhf/lib/
+	cp -a /opt/qt5custom-armhf/lib/libQt5*.so.* $(CURDIR)/debian/tmp/opt/qt5custom-armhf/lib/
+	mkdir -p $(CURDIR)/debian/tmp/opt/qt5custom-armhf/plugins/
+	cp -a /opt/qt5custom-armhf/plugins/* $(CURDIR)/debian/tmp/opt/qt5custom-armhf/plugins/
+	mkdir -p $(CURDIR)/debian/tmp/opt/qt5custom-armhf/qml/
+	cp -a /opt/qt5custom-armhf/qml/* $(CURDIR)/debian/tmp/opt/qt5custom-armhf/qml/
+	mkdir -p $(CURDIR)/debian/tmp/opt/qt5custom-armhf/translations/
+	cp -a /opt/qt5custom-armhf/translations/* $(CURDIR)/debian/tmp/opt/qt5custom-armhf/translations/
+	mkdir -p $(CURDIR)/debian/tmp/opt/qt5custom-armhf/lib/metatypes/
+	cp -a /opt/qt5custom-armhf/lib/metatypes/* $(CURDIR)/debian/tmp/opt/qt5custom-armhf/lib/metatypes/
+	mkdir -p $(CURDIR)/debian/tmp/etc/ld.so.conf.d/
+	cp -a debian/qt_custom-armhf.conf $(CURDIR)/debian/tmp/etc/ld.so.conf.d/
+
+override_dh_missing:
+	dh_missing --fail-missing
+
+override_dh_makeshlibs:
+	dh_makeshlibs -V -XlibQt5EglFSDeviceIntegration -XlibQt5EglFsKmsSupport -XlibQt5XcbQpa
+
+override_dh_shlibdeps:
+	dh_shlibdeps -l /opt/qt5custom-armhf/lib

@@ -1,0 +1,11 @@
+qt-everywhere-runtime (5.15.0-1) unstable; urgency=medium
+
+  * Updated for Qt 5.15.0
+
+ -- Enrico Zini <enrico@debian.org>  Thu, 11 Jun 2020 13:33:33 +0100
+
+qt-everywhere-runtime (5.12.7-1) unstable; urgency=medium
+
+  * Initial version based on Debian packaging
+
+ -- Enrico Zini <enrico@debian.org>  Mon, 09 Mar 2020 14:44:58 +0100
