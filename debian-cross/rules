@@ -1,0 +1,103 @@
+#!/usr/bin/make -f
+
+# Uncomment this to turn on verbose mode.
+#export DH_VERBOSE=1
+
+# Use already defined DEB_HOST_* variables.
+include /usr/share/dpkg/architecture.mk
+
+# Use already defined upstream version as DEB_VERSION_UPSTREAM.
+include /usr/share/dpkg/pkg-info.mk
+
+export PATH := $(PATH):$(shell pwd)/bin
+export CFLAGS := $(shell dpkg-buildflags --get CFLAGS) $(shell dpkg-buildflags --get CPPFLAGS) $(shell getconf LFS_CFLAGS)
+export CXXFLAGS := $(shell dpkg-buildflags --get CXXFLAGS) $(shell dpkg-buildflags --get CPPFLAGS) $(shell getconf LFS_CFLAGS)
+export LDFLAGS := $(shell dpkg-buildflags --get LDFLAGS) -Wl,--as-needed
+export PKG_CONFIG := /usr/bin/$(DEB_HOST_GNU_TYPE)-pkg-config
+
+platform_os = $(or $(mkspec_osmap_$(DEB_HOST_ARCH_OS)),$(DEB_HOST_ARCH_OS))
+platform_arg = $(platform_os)-g++
+
+# Configure here the number of parallel make
+NUMJOBS = 8
+
+
+%:
+	dh $@
+
+override_dh_auto_configure:
+	MAKEFLAGS="-j$(NUMJOBS) ${CXXFLAGS:%=EXTRA_CXXFLAGS+=%} ${LDFLAGS:%=EXTRA_LFLAGS+=%}" \
+	        ./configure \
+		    -commercial \
+	            -confirm-license \
+	            -prefix "/opt/qt5custom-armhf" \
+	            -sysconfdir "/etc/xdg" \
+	            -platform $(platform_arg) \
+		    -no-strip \
+	            -no-rpath \
+	            -no-separate-debug-info \
+	            -qpa xcb \
+		    -nomake tests \
+		    -qtlibinfix custom \
+		    -no-use-gold-linker \
+		    -opengl es2 \
+		    -device linux-rasp-pi2-g++ \
+	            -device-option CROSS_COMPILE=/usr/bin/arm-linux-gnueabihf- \
+	            -device-option DISTRO_OPTS=deb-multi-arch \
+	            -sysroot /  \
+		    -skip qtwebengine \
+	            $(extra_configure_opts) \
+	            $(cpu_opt) \
+	            QMAKE_CFLAGS="$(CFLAGS)" \
+	            QMAKE_CXXFLAGS="$(CXXFLAGS)" \
+	            QMAKE_LFLAGS="$(LDFLAGS)"
+
+override_dh_auto_build-indep:
+	# dh_auto_build -- docs
+
+override_dh_auto_build-arch:
+	dh_auto_build -- -j $(NUMJOBS)
+
+override_dh_auto_install-arch:
+	dh_auto_install -Smakefile -- INSTALL_ROOT=$(CURDIR)/debian/tmp/
+	
+	# Configuration file for qtchooser
+	mkdir -p $(CURDIR)/debian/tmp/usr/lib/$(DEB_HOST_MULTIARCH)/qtchooser
+	mkdir -p $(CURDIR)/debian/tmp/usr/share/qtchooser/
+	echo "/opt/qt5custom-armhf/bin" > $(CURDIR)/debian/tmp/usr/share/qtchooser/qt5custom_armhf-$(DEB_HOST_MULTIARCH).conf
+	echo "/opt/qt5custom-armhf/lib" >> $(CURDIR)/debian/tmp/usr/share/qtchooser/qt5custom_armhf-$(DEB_HOST_MULTIARCH).conf
+	ln -s /usr/share/qtchooser/qt5custom_armhf-$(DEB_HOST_MULTIARCH).conf $(CURDIR)/debian/tmp/usr/lib/$(DEB_HOST_MULTIARCH)/qtchooser/qt5custom_armhf.conf
+	
+	# Remove leftover directories
+	find $(CURDIR)/debian/tmp/opt/qt5custom-armhf/lib/qt5custom -depth -type d \( -false \
+	  -o -name .moc\* \
+	  -o -name .obj\* \
+	  -o -name .pch \
+	  -o -name .rcc \
+	\) -print0 | xargs -0 rm -rf
+	
+	# Remove libtool-like files
+	rm -f debian/tmp/opt/qt5custom-armhf/lib/*.la
+	
+	# There is also no need to install libQtBootstrap. As it's name indicates it's
+	# only used to bootstrap qt.
+	rm -fv debian/tmp/opt/qt5custom-armhf/lib/libQt5Bootstrap*
+	rm -fv debian/tmp/opt/qt5custom-armhf/lib/pkgconfig/Qt5Bootstrap.pc
+	
+	# See https://bugs.debian.org/914019
+	sed -i 's,-fdebug-prefix-map=$(CURDIR)=. ,,' \
+		debian/tmp/opt/qt5custom-armhf/mkspecs/qmodule.pri
+
+override_dh_auto_install-indep:
+	dh_auto_build -- INSTALL_ROOT=$(CURDIR)/debian/tmp install_docs
+
+override_dh_missing:
+	dh_missing --fail-missing
+
+override_dh_makeshlibs:
+	dh_makeshlibs -V -XlibQt5EglFSDeviceIntegration -XlibQt5EglFsKmsSupport -XlibQt5XcbQpa
+
+override_dh_shlibdeps:
+	dh_shlibdeps -X /lib/ -X /examples/ -X bin/xmlpatterns -X bin/qtplugininfo -X bin/qtdiag -X bin/qmlscene -X bin/qdbus -X bin/qml -X bin/qmlpreview -X bin/qdbusviewer -X bin/canbusutil -X bin/sdpscanner -X bin/qtpaths -X /plugins/ -X /qml/
+
+override_dh_strip:
