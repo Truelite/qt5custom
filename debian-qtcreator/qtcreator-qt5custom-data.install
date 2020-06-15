@@ -1,0 +1,3 @@
+debian/Nokia-QtCreator.xml opt/qt5custom/share/mime/packages/
+opt/qt5custom/share/icons/hicolor/*
+opt/qt5custom/share/qtcreator/*

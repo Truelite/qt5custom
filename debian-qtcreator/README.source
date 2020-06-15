@@ -1,0 +1,2 @@
+This package is now under Debian's Qt/KDE maintainers umbrella.
+As such we only keep debian/ under the VCS.

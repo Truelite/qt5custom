@@ -1,0 +1,352 @@
+Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Source: http://download.qt.io/official_releases/qtcreator/*/*/
+
+Files: *
+Copyright:
+ 2002-2009 Julian Seward et al.
+ 2005 Roberto Raggi <roberto@kdevelop.org>
+ 2015-2018 The Qt Company Ltd.
+ 2016 Andre Hartmann <aha_1980@gmx.de>
+ 2016 AudioCodes Ltd.
+ 2016 Axonian LLC.
+ 2016 BlackBerry Limited
+ 2016 BogDan Vatra <bog_dan_ro@yahoo.com>
+ 2016 Brian McGillion
+ 2016 Canonical Ltd.
+ 2016 Denis Mingulov
+ 2016 Denis Shienkov <denis.shienkov@gmail.com>
+ 2016 Digia Plc and/or its subsidiary(-ies)
+ 2016 Dmitry Savchenko
+ 2016 Falko Arps
+ 2016 Giuliano Schneider
+ 2016 Hugues Delorme
+ 2016 Jan Dalheimer <jan@dalheimer.de>
+ 2016 Jochen Becher
+ 2016 Kläralvdalens Datakonsult AB, a KDAB Group company
+ 2016 Konstantin Tokarev <annulen@yandex.ru>
+ 2016 Lorenz Haas
+ 2016 Lukas Holecek <hluk@email.cz>
+ 2016 Nicolas Arnaud-Cormos
+ 2016 nsf <no.smile.face@gmail.com>
+ 2016 Openismus GmbH.
+ 2016 Orgad Shaneh <orgads@gmail.com>
+ 2016 Petar Perisin <petar.perisin@gmail.com>
+ 2016 Przemyslaw Gorszkowski <pgorszkowski@gmail.com>
+ 2016 Research In Motion
+ 2016 Sven Klein
+ 2016 Thorben Kroeger <thorbenkroeger@gmail.com>
+ 2016 Tim Sander <tim@krieglstein.org>
+ 2016 Vasiliy Sorokin
+License: GPL-3+ with The Qt Company GPL exception 1.0
+
+Files:
+ doc/titlecase/*
+ share/qtcreator/templates/wizards/projects/qmake/qtcanvas3dapplication/threejs/3rdparty/three.js
+ src/libs/3rdparty/cplusplus/*
+ src/libs/3rdparty/sqlite/okapi_bm25.h
+ src/tools/3rdparty/cplusplus-keywordgen
+Copyright:
+ 2008-2014 David Gouch
+ 2008-2014 Fawzi Mohamed
+ Pasi keränen <pasi.keranen@theqtcompany.com>
+ 2008 Roberto Raggi <roberto.raggi@gmail.com>
+ 2016 The Qt Company Ltd.
+ 2014 Joshua Wilson
+License: MIT
+
+Files:
+ doc/examples/uiforms/main.cpp
+ doc/examples/textfinder/textfinder.cpp
+ doc/examples/textfinder/main.cpp
+ doc/examples/textfinder/textfinder.h
+ doc/examples/accelbubble/main.cpp
+ scripts/deployqt.py
+ tests/auto/qml/codemodel/importscheck/007_compositeQmlCopyAndCppAndQml/QtQuick/Controls/Private/style.js
+ tests/auto/qml/codemodel/importscheck/005_compositeQmlCopyAndCpp/QtQuick/Controls/Private/style.js
+ tests/auto/qml/codemodel/importscheck/002_nestedQmlOnly/QtGraphicalEffects/*
+ tests/auto/qml/codemodel/importscheck/005_compositeQmlCopyAndCpp/QtQuick/*
+ tests/auto/qml/codemodel/importscheck/007_compositeQmlCopyAndCppAndQml/QtQuick/Controls/*
+ tests/auto/qml/codemodel/importscheck/003_packageQmlOnly/QtGraphicalEffects/*
+ tests/auto/qml/codemodel/importscheck/001i_flatQmlOnly/GaussianDirectionalBlur.qml
+ src/plugins/imageviewer/imageview.h
+ src/plugins/imageviewer/imageview.cpp
+ src/shared/tests/auto/blackbox/testdata/dynamicRuleOutputs/before/flexoptionsreader.js: BSD (3 clause)
+ src/shared/tests/auto/blackbox/testdata/dbus-interfaces/main.cpp
+ src/shared/tests/auto/blackbox/testdata/dbus-interfaces/controller.*
+ src/shared/tests/auto/blackbox/testdata/dbus-adaptors/*
+ src/shared/tests/auto/blackbox/testdata/loadablemodule/main.cpp
+Copyright:
+ 2016 The Qt Company Ltd.
+ 2016 Denis Mingulov
+ 2015 Jake Petroules
+License: BSD-3-clause
+
+Files: src/libs/3rdparty/botan/*
+Copyright: 1999-2011 Jack Lloyd
+License: BSD-2-clause
+
+Files: src/libs/3rdparty/sqlite/*
+Copyright: D. Richard Hipp <drh@hwaci.com>
+License: public-domain
+ The files listed have been put on the public domain by the sqlite3
+ contributors.
+
+Files: src/share/3rdparty/generic-highlighter/*
+Copyright:
+ 2004 by Dominik Haumann
+ 2004 Alexander Neundorf <neundorf@kde.org>
+ 2005 Dominik Haumann <dhdev@gmx.de>
+ 2007,2008,2013,2014 Matthew Woehlke <mw_triad@users.sourceforge.net>
+ 2013-2015 Alex Turbov <i.zaufi@gmail.com>
+ 2007 Matthew Woehlke <mw_triad@users.sourceforge.net>
+ 2001-2004 Anders Lund <anders@alweb.dk>
+ 2004 Sebastian Vuorinen <sebastian dot vuorinen at helsinki dot fi>
+ 2004 Stefan Lang (langstefan@gmx.at)
+ 2008 Robin Pedersen (robinpeder@gmail.com)
+ 2011 Miquel Sabaté (mikisabate@gmail.com)
+ 2004 Jan Villat <jan.villat@net2000.ch>
+License: LGPL-2.1+
+
+Files: src/shared/qbs/*
+Copyright: 2015, The Qt Company Ltd.
+           2015, Jake Petroules
+License: LGPL-2.1-or-3 with Qt-1.1 exception
+
+Files: src/shared/qbs/src/lib/corelib/jsextensions/domxml.*
+Copyright: 2015, BogDan Vatra <bogdan@kde.org>
+License: LGPL-2.1-or-3 with Qt-1.1 exception
+
+Files: src/shared/qbs/src/plugins/scanner/cpp/*
+Copyright: 2015, The Qt Company Ltd.
+           2008, Roberto Raggi <roberto.raggi@gmail.com>
+License: LGPL-2.1-or-3 with Qt-1.1 exception and Expat
+
+Files: src/shared/qbs/examples/cocoa-application/*
+       src/shared/qbs/examples/cocoa-touch-application/*
+       src/shared/qbs/src/lib/corelib/jsextensions/propertylist.*
+       src/shared/qbs/src/lib/corelib/tools/architectures.cpp
+       src/shared/qbs/src/lib/corelib/tools/shellutils.*
+Copyright: 2015, The Qt Company Ltd.
+           2015, Petroules Corporation
+License: LGPL-2.1-or-3 with Qt-1.1 exception
+
+Files: src/shared/qbs/doc/templates/scripts/superfish.js
+Copyright: 2008, Joel Birch <joeldbirch@gmail.com>
+License: Expat
+
+Files: examples/*.qbs
+       examples/helloworld-*/*
+       tests/auto/blackbox/testdata/dynamicRuleOutputs/*
+Copyright: 2015, The Qt Company Ltd.
+License: BSD-3-clause
+
+Files: src/tools/3rdparty/iossim*
+Copyright: 2008-2011 Plausible Labs Cooperative, Inc.
+License: Expat
+
+Files: src/libs/3rdparty/variant/*
+Copyright: 2015-2017 Michael Park <mcypark@gmail.com>
+License: Boost-1.0
+
+License: GPL-3+ with The Qt Company GPL exception 1.0
+ This program is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License as published by
+ the Free Software Foundation, either version 3 of the License, or
+ (at your option) any later version.
+ .
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+ .
+ On Debian systems, the complete text of the GNU General Public License
+ can be found in `/usr/share/common-licenses/GPL-3`.
+ .
+ The Qt Company GPL Exception 1.0
+ .
+ Exception 1:
+ .
+ As a special exception you may create a larger work which contains the
+ output of this application and distribute that work under terms of your
+ choice, so long as the work is not otherwise derived from or based on
+ this application and so long as the work does not in itself generate
+ output that contains the output from this application in its original
+ or modified form.
+ .
+ Exception 2:
+ .
+ As a special exception, you have permission to combine this application
+ with Plugins licensed under the terms of your choice, to produce an
+ executable, and to copy and distribute the resulting executable under
+ the terms of your choice. However, the executable must be accompanied
+ by a prominent notice offering all users of the executable the entire
+ source code to this application, excluding the source code of the
+ independent modules, but including any changes you have made to this
+ application, under the terms of this license.
+
+License: BSD-3-clause
+ Redistribution and use in source and binary forms, with or without
+ modification, are permitted provided that the following conditions are met:
+ .
+ 1.  Redistributions of source code must retain the above copyright notice,
+     this list of conditions and the following disclaimer.
+ .
+ 2.  Redistributions in binary form must reproduce the above copyright notice,
+     this list of conditions and the following disclaimer in the documentation
+     and/or other materials provided with the distribution.
+ .
+ 3.  The name of the copyright holders may be used to endorse or promote
+     products derived from this software without specific prior written
+     permission.
+ .
+ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
+ AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+ IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+ ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE
+ LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+ INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+ CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+ POSSIBILITY OF SUCH DAMAGE.
+
+License: BSD-2-clause
+ All rights reserved.
+ .
+ Redistribution and use in source and binary forms, with or without
+ modification, are permitted provided that the following conditions are
+ met:
+ .
+ 1. Redistributions of source code must retain the above copyright
+ notice, this list of conditions, and the following disclaimer.
+ .
+ 2. Redistributions in binary form must reproduce the above copyright
+ notice, this list of conditions, and the following disclaimer in the
+ documentation and/or other materials provided with the distribution.
+ .
+ THIS SOFTWARE IS PROVIDED BY THE AUTHOR(S) "AS IS" AND ANY EXPRESS OR
+ IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+ WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE,
+ ARE DISCLAIMED. IN NO EVENT SHALL THE AUTHOR(S) OR CONTRIBUTOR(S) BE
+ LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR
+ CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+ SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR
+ BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY,
+ WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE
+ OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
+ IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+License: MIT
+  Permission is hereby granted, free of charge, to any person obtaining
+  a copy of this software and associated documentation files (the
+  "Software"), to deal in the Software without restriction, including
+  without limitation the rights to use, copy, modify, merge, publish,
+  distribute, sublicense, and/or sell copies of the Software, and to
+  permit persons to whom the Software is furnished to do so, subject to
+  the following conditions:
+  .
+  The above copyright notice and this permission notice shall be
+  included in all copies or substantial portions of the Software.
+  .
+  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+  EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+  MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+  NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+  LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+  OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+  WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+License: Expat
+ Permission is hereby granted, free of charge, to any person obtaining
+ a copy of this software and associated documentation files (the
+ "Software"), to deal in the Software without restriction, including
+ without limitation the rights to use, copy, modify, merge, publish,
+ distribute, sublicense, and/or sell copies of the Software, and to
+ permit persons to whom the Software is furnished to do so, subject to
+ the following conditions:
+ .
+ The above copyright notice and this permission notice shall be included
+ in all copies or substantial portions of the Software.
+ .
+ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+ EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+ MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+ IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+ CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+ TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+License: LGPL-2.1-or-3 with Qt-1.1 exception
+ GNU Lesser General Public License:
+ This file may be used under the terms of the GNU Lesser General Public
+ License version 2.1 or version 3 as published by the Free Software
+ Foundation and appearing in the file LICENSE.LGPLv21 and LICENSE.LGPLv3
+ included in the packaging of this file. Please review the following
+ information to ensure the GNU Lesser General Public License requirements
+ will be met: https://www.gnu.org/licenses/lgpl.html.
+ .
+ In addition, as a special exception, The Qt Company gives you certain
+ additional rights. These rights are described in The Qt Company Qt LGPL
+ Exception version 1.1, included in the file LGPL_EXCEPTION.txt in this
+ package.
+ .
+ On Debian systems, the complete text of the GNU Lesser General Public
+ License version 2.1 can be found in `/usr/share/common-licenses/LGPL-2.1`.
+ The complete text of the GNU Lesser General Public License version 3 can be
+ found in `/usr/share/common-licenses/LGPL-3`.
+ .
+ The Qt Company LGPL Exception version 1.1:
+ As an additional permission to the GNU Lesser General Public License version
+ 2.1, the object code form of a "work that uses the Library" may incorporate
+ material from a header file that is part of the Library.  You may distribute
+ such object code under terms of your choice, provided that:
+     (i)   the header files of the Library have not been modified; and
+     (ii)  the incorporated material is limited to numerical parameters, data
+           structure layouts, accessors, macros, inline functions and
+           templates; and
+     (iii) you comply with the terms of Section 6 of the GNU Lesser General
+           Public License version 2.1.
+ .
+ Moreover, you may apply this exception to a modified version of the Library,
+ provided that such modification does not involve copying material from the
+ Library into the modified Library's header files unless such material is
+ limited to (i) numerical parameters; (ii) data structure layouts;
+ (iii) accessors; and (iv) small macros, templates and inline functions of
+ five lines or less in length.
+ .
+ Furthermore, you are not required to apply this additional permission to a
+ modified version of the Library.
+
+License: LGPL-2.1+
+ This file may be used under the terms of the GNU Lesser General Public
+ License as published by the Free Software Foundation, either version 2.1
+ of the License, or (at your opinion) any later version.
+ .
+ On Debian systems, the complete text of the GNU Lesser General Public
+ License can be found in `/usr/share/common-licenses/LGPL-2.1`.
+
+License: Boost-1.0
+ Boost Software License - Version 1.0 - August 17th, 2003
+ .
+ Permission is hereby granted, free of charge, to any person or organization
+ obtaining a copy of the software and accompanying documentation covered by
+ this license (the "Software") to use, reproduce, display, distribute,
+ execute, and transmit the Software, and to prepare derivative works of the
+ Software, and to permit third-parties to whom the Software is furnished to
+ do so, all subject to the following:
+ .
+ The copyright notices in the Software and this entire statement, including
+ the above license grant, this restriction and the following disclaimer,
+ must be included in all copies of the Software, in whole or in part, and
+ all derivative works of the Software, unless such copies or derivative
+ works are solely in the form of machine-executable object code generated by
+ a source language processor.
+ .
+ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ FITNESS FOR A PARTICULAR PURPOSE, TITLE AND NON-INFRINGEMENT. IN NO EVENT
+ SHALL THE COPYRIGHT HOLDERS OR ANYONE DISTRIBUTING THE SOFTWARE BE LIABLE
+ FOR ANY DAMAGES OR OTHER LIABILITY, WHETHER IN CONTRACT, TORT OR OTHERWISE,
+ ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+ DEALINGS IN THE SOFTWARE.

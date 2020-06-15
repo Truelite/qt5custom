@@ -1,0 +1,6 @@
+# Upstream's code searches for qtcreator.sh, and qtcreator is a binary.
+qtcreator-qt5custom: script-with-language-extension
+# The changelog is shipped in qtcreator-data.
+qtcreator-qt5custom: no-upstream-changelog
+# lib data part of qtcomponents
+qtcreator-qt5custom: image-file-in-usr-lib

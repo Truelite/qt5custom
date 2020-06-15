@@ -1,0 +1,5 @@
+# Qt Creator ships with qbs' sources, but we do not build nor use them.
+# We instead use the system's qbs (ie, the Debian package).
+qtcreator source: insane-line-length-in-source-file src/shared/qbs/doc/templates/scripts/jquery.js *
+qtcreator source: source-contains-prebuilt-javascript-object src/shared/qbs/doc/templates/scripts/jquery.js *
+qtcreator source: source-is-missing src/shared/qbs/doc/templates/scripts/jquery.js *

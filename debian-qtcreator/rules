@@ -1,0 +1,53 @@
+#!/usr/bin/make -f
+
+# Uncomment this to turn on verbose mode.
+#export DH_VERBOSE=1
+
+DEB_HOST_MULTIARCH ?= $(shell dpkg-architecture -qDEB_HOST_MULTIARCH)
+
+export QT_SELECT := qt5custom
+export LLVM_INSTALL_DIR := "/usr/lib/llvm-8"
+
+# Configure here the number of parallel make
+NUMJOBS = 8
+
+# Upstream changelog
+upstream_changes := $(wildcard dist/changes-*)
+
+%:
+	dh $@ --builddirectory=builddir
+
+override_dh_auto_configure:
+	dh_auto_configure --buildsystem=qmake -- \
+		-recursive \
+		USE_SYSTEM_BOTAN=1 \
+		LLVM_INSTALL_DIR="$(LLVM_INSTALL_DIR)" \
+		CONFIG+="disable_external_rpath use_system_botan" \
+		$(CURDIR) IDE_LIBRARY_BASENAME=lib/$(DEB_HOST_MULTIARCH) IDE_PACKAGE_MODE=1 $(extra_configure_opts)
+
+# QBS_INSTALL_DIR=/usr
+
+override_dh_auto_build:
+	dh_auto_build -- -j $(NUMJOBS)
+
+override_dh_auto_install:
+	dh_auto_install --destdir=debian/tmp/opt/qt5custom
+	dh_auto_build -- qch_docs
+	dh_auto_build -- install_inst_qch_docs install_inst_html_docs INSTALL_ROOT=$(CURDIR)/debian/tmp/opt/qt5custom
+
+	# Do not install the file, we better symlink it.
+	rm -vf debian/tmp/opt/qt5custom/share/qtcreator/debugger/LICENSE.LGPL
+
+	# Not needed
+	rm debian/tmp/opt/qt5custom/bin/qtcreator.sh
+
+override_dh_missing:
+	dh_missing --fail-missing
+
+override_dh_installdocs:
+	dh_installdocs -pqtcreator-qt5custom-data $(upstream_changes)
+	dh_installdocs --remaining-packages
+
+override_dh_shlibdeps:
+	dh_shlibdeps -l$(CURDIR)/debian/qtcreator-qt5custom/opt/qt5custom/lib/$(DEB_HOST_MULTIARCH)/qtcreator:\
+	$(CURDIR)/debian/qtcreator-qt5custom/opt/qt5custom/lib/$(DEB_HOST_MULTIARCH)/qtcreator/plugins/QtProject

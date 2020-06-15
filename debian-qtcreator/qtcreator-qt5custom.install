@@ -1,0 +1,6 @@
+opt/qt5custom/bin/qtcreator
+opt/qt5custom/bin/qbs*
+opt/qt5custom/lib/*/qtcreator/*
+opt/qt5custom/libexec/qtcreator/*
+opt/qt5custom/share/applications/org.qt-project.qtcreator.desktop
+opt/qt5custom/share/metainfo/org.qt-project.qtcreator.appdata.xml

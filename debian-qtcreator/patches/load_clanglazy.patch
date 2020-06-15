@@ -1,0 +1,15 @@
+---
+ src/plugins/clangtools/clangtidyclazyrunner.cpp |    1 +
+ 1 file changed, 1 insertion(+)
+
+--- qt-creator-enterprise-src-4.12.2.orig/src/plugins/clangtools/clangtidyclazyrunner.cpp
++++ qt-creator-enterprise-src-4.12.2/src/plugins/clangtools/clangtidyclazyrunner.cpp
+@@ -67,7 +67,7 @@ static QStringList clazyPluginArguments(
+     QStringList arguments;
+ 
+     if (diagnosticConfig.isClazyEnabled()) {
+-        arguments << XclangArgs({"-add-plugin", "clazy"});
++        arguments << XclangArgs({"-add-plugin", "clazy", "-load", "ClazyPlugin.so"});
+         if (!diagnosticConfig.clazyChecks().isEmpty())
+             arguments << XclangArgs({"-plugin-arg-clazy", diagnosticConfig.clazyChecks()});
+     }

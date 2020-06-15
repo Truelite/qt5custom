@@ -1,0 +1,11 @@
+qt-creator-enterprise-src (4.12.2-1) unstable; urgency=medium
+
+  * Updated to Qt Creator 4.12.2
+
+ -- Enrico Zini <enrico@truelite.it>  Fri, 12 Jun 2020 17:30:30 +0200
+
+qt-creator-enterprise-src (4.9.2-1) unstable; urgency=medium
+
+  * Packaged based on Debian packaging
+
+ -- Enrico Zini <enrico@truelite.it>  Fri, 08 May 2020 13:46:28 +0200

@@ -1,0 +1,61 @@
+Source: qt-creator-enterprise-src
+Section: devel
+Priority: optional
+Maintainer: Enrico Zini <enrico@truelite.it>
+Build-Depends: debhelper (>= 11),
+               libbotan-2-dev,
+               libclang-8-dev,
+               libdw-dev,
+               libicu-dev,
+               libjs-jquery,
+               qtbase5custom-dev (>= 5.15.0~),
+               llvm-8-dev,
+               pkg-config,
+               zlib1g-dev
+Standards-Version: 4.3.0
+Homepage: https://doc.qt.io/qt-5/topics-app-development.html
+
+Package: qtcreator-qt5custom
+Architecture: any
+Depends: libqt5sql5-sqlite,
+         qtchooser,
+         qtcreator-qt5custom-data (= ${source:Version}),
+         ${misc:Depends},
+         ${shlibs:Depends}
+Recommends: clang,
+            gdb,
+            make,
+            qmlscene,
+            qtcreator-qt5custom-doc,
+            xterm | x-terminal-emulator
+Suggests: clazy (>= 1.5), cmake, g++, git, kate-data, subversion, valgrind
+Description: integrated development environment (IDE) for Qt (Custom version)
+ Qt Creator is a cross-platform integrated development environment (IDE)
+ designed to make development with the Qt application framework faster
+ and easier.
+ .
+ It includes:
+  * An advanced C++ code editor
+  * Integrated GUI layout and forms designer
+  * Project and build management tools
+  * Integrated, context-sensitive help system
+  * Visual debugger
+  * Rapid code navigation tools
+  * Supports multiple platforms
+  * Qt Quick Designer
+
+Package: qtcreator-qt5custom-data
+Architecture: all
+Multi-Arch: foreign
+Depends: ${misc:Depends}
+Description: application data for Qt Creator IDE (Custom version)
+ This package contains architecture-independent data for Qt Creator IDE.
+
+Package: qtcreator-qt5custom-doc
+Architecture: all
+Multi-Arch: foreign
+Section: doc
+Depends: ${misc:Depends}
+Suggests: qt5-doc
+Description: documentation for Qt Creator IDE (Custom version)
+ This package contains documentation for Qt Creator IDE.

@@ -1,0 +1,4 @@
+opt/qt5custom/share/doc/qtcreator/qtcreator-dev.qch opt/qt5custom/share/qtcreator/doc
+opt/qt5custom/share/doc/qtcreator/qtcreator-dev/* opt/qt5custom/share/doc/qtcreator/html-dev
+opt/qt5custom/share/doc/qtcreator/qtcreator.qch opt/qt5custom/share/qtcreator/doc
+opt/qt5custom/share/doc/qtcreator/qtcreator/* opt/qt5custom/share/doc/qtcreator/html
