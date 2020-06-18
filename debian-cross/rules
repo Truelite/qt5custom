@@ -58,6 +58,8 @@ override_dh_auto_build-indep:
 override_dh_auto_build-arch:
 	dh_auto_build -- -j $(NUMJOBS)
 
+override_dh_auto_test:
+
 override_dh_auto_install-arch:
 	dh_auto_install -Smakefile -- INSTALL_ROOT=$(CURDIR)/debian/tmp/
 	
