@@ -1,0 +1,33 @@
+Description: Build designer library also when cross-compiling
+ This is needed to be able to build plugins implementing
+ QDesignerCustomWidgetInterface
+Author: Enrico Zini <enrico@truelite.it>
+Origin: other, https://www.enricozini.org/blog/2020/qt5/cross-building-qt5-designer-component
+Last-Update: 2020-06-18
+---
+This patch header follows DEP-3: http://dep.debian.net/deps/dep3/
+Index: qt-everywhere-src-5.15.0/qttools/src/designer/src/src.pro
+===================================================================
+--- qt-everywhere-src-5.15.0.orig/qttools/src/designer/src/src.pro
++++ qt-everywhere-src-5.15.0/qttools/src/designer/src/src.pro
+@@ -23,6 +23,5 @@ uitools.depends = uiplugin
+ qtNomakeTools( \
+     lib \
+     components \
+-    designer \
+     plugins \
+ )
+Index: qt-everywhere-src-5.15.0/qttools/src/designer/src/uitools/uitools.pro
+===================================================================
+--- qt-everywhere-src-5.15.0.orig/qttools/src/designer/src/uitools/uitools.pro
++++ qt-everywhere-src-5.15.0/qttools/src/designer/src/uitools/uitools.pro
+@@ -12,9 +12,4 @@ DEFINES += \
+     QFORMINTERNAL_NAMESPACE \
+     QT_DESIGNER_STATIC
+ 
+-# QtUiPlugins end up in designer for historical reasons. However, if
+-# designer isn't actually built, we need to claim the plugin type here.
+-!qtBuildPart(tools): \
+-    MODULE_PLUGIN_TYPES = designer
+-
+ load(qt_module)

@@ -1,0 +1,3 @@
+cross-build-designer.patch
+pkg-config-wrapper.patch
+skcms-gcc-ice.patch

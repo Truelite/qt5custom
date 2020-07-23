@@ -1,0 +1,12 @@
+Index: qt-everywhere-src-5.15.0/qtwebengine/src/3rdparty/chromium/build/config/linux/pkg-config.py
+===================================================================
+--- qt-everywhere-src-5.15.0.orig/qtwebengine/src/3rdparty/chromium/build/config/linux/pkg-config.py
++++ qt-everywhere-src-5.15.0/qtwebengine/src/3rdparty/chromium/build/config/linux/pkg-config.py
+@@ -61,6 +61,7 @@ def SetConfigPath(options):
+ 
+   libdir = sysroot + '/usr/' + options.system_libdir + '/pkgconfig'
+   libdir += ':' + sysroot + '/usr/share/pkgconfig'
++  libdir += ':' + sysroot + '/usr/lib/arm-linux-gnueabihf/pkgconfig'
+   os.environ['PKG_CONFIG_LIBDIR'] = libdir
+   return libdir
+ 
