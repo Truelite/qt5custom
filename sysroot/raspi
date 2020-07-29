@@ -239,6 +239,38 @@ class Extract(ImageCommand):
         return parser
 
 
+class FixSymlinks(Command):
+    """
+    Recursively make all symlinks relative inside a given directory
+    """
+    @classmethod
+    def make_subparser(cls, subparsers):
+        parser = super().make_subparser(subparsers)
+        parser.add_argument("root", action="store", help="Make symlinks relative under this directory")
+        return parser
+
+    def run(self):
+        # Based on https://raw.githubusercontent.com/riscv/riscv-poky/master/scripts/sysroot-relativelinks.py
+        topdir = os.path.abspath(self.args.root)
+
+        def handlelink(filep, subdir):
+            link = os.readlink(filep)
+            if link[0] != "/" or link.startswith("/dev/") or link.startswith("/proc/"):
+                return
+            if link.startswith(topdir):
+                return
+            #print("Replacing %s with %s for %s" % (link, topdir+link, filep))
+            rel = os.path.relpath(topdir + link, subdir)
+            print(f"Replacing {link} with {rel} for {filep}")
+            os.unlink(filep)
+            os.symlink(rel, filep)
+
+        for subdir, dirs, files in os.walk(topdir):
+            for f in files:
+                filep = os.path.join(subdir, f)
+                if os.path.islink(filep):
+                    handlelink(filep, subdir)
+
 def main():
     parser = argparse.ArgumentParser(description="Raspberry Pi OS setup tool")
     subparsers = parser.add_subparsers(help="sub-command help", dest="command")
@@ -246,6 +278,7 @@ def main():
     Shell.make_subparser(subparsers)
     Provision.make_subparser(subparsers)
     Extract.make_subparser(subparsers)
+    FixSymlinks.make_subparser(subparsers)
 
     args = parser.parse_args()
     if args.command is None:

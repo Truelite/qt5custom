@@ -21,6 +21,7 @@ override_dh_auto_install:
 	# Dump the contents of RASPIOS_IMAGE into debian/tmp/opt/qt5-raspios-sysroot
 	mkdir -p $(CURDIR)/debian/tmp/opt/
 	./raspi extract 2020-05-27-raspios-buster-lite-armhf.img $(CURDIR)/debian/tmp/opt/qt5-raspios-sysroot
+	./raspi fixsymlinks $(CURDIR)/debian/tmp/opt/qt5-raspios-sysroot
 
 override_dh_strip:
 
