@@ -2,79 +2,20 @@ Source: qt-everywhere-cross
 Section: libs
 Priority: optional
 Maintainer: Enrico Zini <enrico@truelite.it>
-Build-Depends: debhelper (>= 11), dh-exec, dpkg-dev (>= 1.17.14),
-# qt5-default build-dependencies in Debian, minus packages that bring in Qt
-# tools and libraries from Debian, like pkg-kde-tools
+Build-Depends:
+ debhelper (>= 11), dh-exec, dpkg-dev (>= 1.17.14),
+ qt-raspi-sysroot,
 #
-# Grouping follows documentation on https://wiki.qt.io/Building_Qt_5_from_Git
+# Additional i386 dependencies
 #
-  default-libmysqlclient-dev [armhf], firebird-dev [armhf], freetds-dev [armhf],
-  libpq-dev [armhf], libsqlite3-dev [armhf], unixodbc-dev [armhf],
-  libasound2-dev [armhf], libpulse-dev [armhf],
-  libatspi2.0-dev [armhf],
-  libcups2-dev [armhf],
-  libdbus-1-dev [armhf],
-  libdouble-conversion-dev [armhf],
-  libfontconfig1-dev [armhf], libfreetype6-dev [armhf],
-  libgbm-dev [armhf],
-  libgl1-mesa-dev [armhf], libgles2-mesa-dev [armhf], libglu1-mesa-dev [armhf] | libglu-dev [armhf],
-  libglib2.0-dev [armhf], libgtk-3-dev [armhf],
-  libharfbuzz-dev (>= 1.6.0~) [armhf],
-  libicu-dev [armhf],
-  libjpeg-dev [armhf], libpng-dev [armhf],
-  libpcre2-dev [armhf],
-  libproxy-dev [armhf],
-  libssl-dev [armhf],
-  zlib1g-dev [armhf],
-  libmtdev-dev [armhf],
-  libinput-dev [armhf],
-  libudev-dev [armhf],
-  libvulkan-dev [armhf],
-  libx11-dev [armhf], libx11-xcb-dev [armhf], libxcb-icccm4-dev [armhf], libxcb-image0-dev [armhf],
-  libxcb-keysyms1-dev [armhf], libxcb-randr0-dev [armhf], libxcb-render-util0-dev [armhf],
-  libxcb-render0-dev [armhf], libxcb-shape0-dev [armhf], libxcb-shm0-dev [armhf], libxcb-sync-dev [armhf],
-  libxcb-xfixes0-dev [armhf], libxcb-xinerama0-dev [armhf], libxcb-xkb-dev [armhf], libxcb1-dev [armhf],
-  libxext-dev [armhf], libxi-dev [armhf], libxkbcommon-dev [armhf], libxkbcommon-x11-dev [armhf],
-  libxrender-dev [armhf],
-  publicsuffix [armhf],
-#
-# More libxcb
-#
-  libxcb-glx0-dev [armhf], libxcb-xinput-dev [armhf],
-#
-# Qt Webkit build-dependencies
-#
-  flex [amd64], bison [amd64], gperf [amd64],
-  libxslt1-dev [armhf],
-  ruby [amd64],
-#
-# Qt WebEngine build-dependencies
-#
-  libxcursor-dev [armhf], libxcomposite-dev [armhf], libxdamage-dev [armhf], libxrandr-dev [armhf], libcap-dev [armhf],
-  libxtst-dev [armhf], libpci-dev [armhf], libnss3-dev [armhf], libxss-dev [armhf], libegl1-mesa-dev [armhf],
-#
-# Qt Multimedia build-dependencies
-#
-  libgstreamer-plugins-base1.0-dev [armhf], libgstreamer1.0-dev [armhf],
-#
-# QDoc Documentation Generator Tool
-#
-  libclang-dev [amd64], llvm [amd64],
-#
-# These libraries aren't necessarily documented but config looks for them
-#
-  libts-dev [armhf], libmng-dev [armhf], libwebp-dev [armhf], libbluetooth-dev [armhf], libpoppler-cpp-dev [armhf],
-  libjsoncpp-dev [armhf], libevent-dev [armhf], libxml2-dev [armhf], libminizip-dev [armhf], ninja-build [amd64],
-  libre2-dev [armhf], libprotobuf-dev [armhf], libsnappy-dev [armhf], libopus-dev [armhf],
-  libdrm-dev [armhf], libzstd-dev [armhf], libsystemd-dev [armhf], flite1-dev [armhf], libspeechd-dev [armhf],
-  libavcodec-dev [armhf], libavdevice-dev [armhf], libavfilter-dev [armhf], libavformat-dev [armhf], libavresample-dev [armhf], libavutil-dev [armhf]
+  lib32stdc++-8-dev, libc6-dev-i386, linux-libc-dev [i386], zlib1g-dev [i386],
 Standards-Version: 4.5.0
 
 Package: qtbase5custom-armhf-dev
 Architecture: any
 Multi-Arch: same
 Section: libdevel
-Depends: qtchooser, ${misc:Depends}
+Depends: qtchooser, qt-raspi-sysroot, ${misc:Depends}
 Description: Qt 5 cross-development files for armhf devices (Custom version)
  Qt is a cross-platform C++ application framework. Qt's primary feature
  is its rich set of widgets that provide standard GUI functionality.

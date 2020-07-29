@@ -43,7 +43,7 @@ override_dh_auto_configure:
 		    -device linux-rasp-pi2-g++ \
 	            -device-option CROSS_COMPILE=/usr/bin/arm-linux-gnueabihf- \
 	            -device-option DISTRO_OPTS=deb-multi-arch \
-	            -sysroot /home/build/sysroot/ \
+	            -sysroot /opt/qt5-raspios-sysroot/ \
 		    -skip wayland \
 	            $(extra_configure_opts) \
 	            $(cpu_opt) \
