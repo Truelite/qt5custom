@@ -1,0 +1,27 @@
+Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Upstream-Name: qt-raspi-sysroot
+
+Files: transilience
+Copyright: 2020 Enrico Zini <enrico@enricozini.org>
+License: GPL-3
+
+Files: raspi
+Copyright: 2020 Truelite S.r.l.
+License: GPL-3
+
+Files: debian/*
+Copyright: 2020 Truelite S.r.l.
+License: GPL-3
+
+License: GPL-3
+ This program is free software: you can redistribute it and/or modify
+ it under the terms of the GNU General Public License version 3 as
+ published by the Free Software Foundation.
+ .
+ This program is distributed in the hope that it will be useful,
+ but WITHOUT ANY WARRANTY; without even the implied warranty of
+ MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ GNU General Public License for more details.
+ .
+ On Debian systems, the complete text of the GNU General Public License
+ version 3 can be found in /usr/share/common-licenses/GPL-3.

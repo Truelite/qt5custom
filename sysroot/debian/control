@@ -1,0 +1,16 @@
+Source: qt-raspi-sysroot
+Section: devel
+Priority: optional
+Maintainer: Enrico Zini <enrico@truelite.it>
+Build-Depends: debhelper (>= 11), dpkg-dev (>= 1.17.14),
+  python3, python3-parted, dmidecode, kpartx, rsync,
+  systemd-container, qemu, binfmt-support, qemu-user-static, qemu-system-arm
+Standards-Version: 4.5.0
+
+Package: qt-raspi-sysroot
+Architecture: any
+Multi-Arch: same
+Depends: ${misc:Depends}
+Description: Sysroot for Qt5 Raspberry Pi cross-development
+ This package contains the Raspberry Pi OS filesystem that can be
+ used as a sysroot for Qt5 cross-development.

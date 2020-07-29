@@ -1,0 +1,263 @@
+#!/usr/bin/python3
+
+# apt install python3-parted systemd-container kpartx qemu-user-static
+
+from __future__ import annotations
+from typing import Dict
+from transilience.device import Partition, DiskImage, RaspiImage
+from transilience.actions import AptInstall, AptRemove
+from transilience.utils import run
+import parted
+import os
+import sys
+import argparse
+import subprocess
+import logging
+
+log = logging.getLogger()
+
+Devices = Dict[str, Partition]
+
+
+class Fail(RuntimeError):
+    """
+    Exception thrown to show the user an error message without a stack trace
+    """
+    pass
+
+
+class Command:
+    """
+    Command line subcommand
+    """
+    # Command name (as used in command line)
+    # Defaults to the lowercased class name
+    NAME = None
+
+    # Command description (as used in command line help)
+    # Defaults to the strip()ped class docstring.
+    DESC = None
+
+    def __init__(self, args):
+        self.args = args
+        self.setup_logging()
+
+    def setup_logging(self):
+        FORMAT = "%(asctime)-15s %(levelname)s %(message)s"
+        if self.args.debug:
+            logging.basicConfig(level=logging.DEBUG, stream=sys.stderr, format=FORMAT)
+        elif self.args.verbose:
+            logging.basicConfig(level=logging.INFO, stream=sys.stderr, format=FORMAT)
+        else:
+            logging.basicConfig(level=logging.WARN, stream=sys.stderr, format=FORMAT)
+
+    @classmethod
+    def make_subparser(cls, subparsers):
+        name = cls.NAME
+        if name is None:
+            name = cls.__name__.lower()
+
+        desc = cls.DESC
+        if desc is None:
+            desc = cls.__doc__.strip()
+
+        parser = subparsers.add_parser(name, help=desc)
+        parser.set_defaults(handler=cls)
+        parser.add_argument("-v", "--verbose", action="store_true", help="verbose output")
+        parser.add_argument("--debug", action="store_true", help="verbose output")
+        return parser
+
+
+class ImageCommand(Command):
+    @classmethod
+    def make_subparser(cls, subparsers):
+        parser = super().make_subparser(subparsers)
+        parser.add_argument("image", action="store", help="Raspberry Pi OS image file")
+        return parser
+
+
+class Shell(ImageCommand):
+    """
+    Run a shell inside the mounted Raspberry Pi OS
+    """
+    def run(self):
+        disk = RaspiImage(self.args.image)
+        with disk.mount() as root:
+            print("Raspberry Pi OS mounted in", root.root)
+            with root.stash_file("/etc/ld.so.preload"):
+                root.run(("/bin/bash", "-"), check=False)
+
+
+class Provision(ImageCommand):
+    """
+    Install the needed build dependencies in the Raspberry Pi OS image
+    """
+    def partition(self, disk: DiskImage):
+        """
+        Update partitioning on the SD card
+        """
+        # See https://github.com/dcantrell/pyparted/tree/master/examples
+        # for pyparted examples
+        # See https://www.gnu.org/software/parted/api/modules.html
+        # for library documentation
+        # See http://www.linuxvoice.com/issues/005/pyparted.pdf
+        # for more examples and in-depth explanations
+
+        with disk.parted_device() as device:
+            disk = parted.newDisk(device)
+            if not disk.check():
+                raise Fail("Parted disk check failed (TODO: find out how to get details about what check failed)")
+
+            partitions = list(disk.partitions)
+            if len(partitions) != 2:
+                raise Fail(f"Raspberry Pi OS image should have 2 partitions")
+
+            part_boot = partitions[0]
+            fs = part_boot.fileSystem
+            if not fs:
+                raise Fail("SD boot partition has no file system: reset it with --write-image")
+            if fs.type != "fat32":
+                raise Fail("SD boot partition is not a fat32 partition: reset it with --write-image")
+
+            part_root = partitions[1]
+            fs = part_root.fileSystem
+            if not fs:
+                raise Fail("SD system partition has no file system: reset it with --write-image")
+            if fs.type != "ext4":
+                raise Fail("SD system partition is not an ext4 partition: reset it with --write-image")
+
+            # Get the last free space
+            free_space = disk.getFreeSpaceRegions()[-1]
+
+            # Resize rootfs partition
+            constraint = device.optimalAlignedConstraint
+            constraint.minSize = part_root.getLength()
+            constraint.mazSize = part_root.getLength() + free_space.getLength()
+            disk.maximizePartition(part_root, constraint)
+            disk.commit()
+
+    def run(self):
+        disk = RaspiImage(self.args.image)
+
+        # Extend disk image if needed
+        min_size = 2.5 * 1024 * 1024 * 1024
+        if os.path.getsize(self.args.image) < min_size:
+            with open(self.args.image, "r+b") as fd:
+                os.truncate(fd.fileno(), min_size)
+                os.posix_fallocate(fd.fileno(), 0, min_size)
+
+            self.partition(disk)
+            with disk.partitions() as parts:
+                run(("resize2fs", parts["rootfs"].path))
+
+        with disk.mount() as root:
+            with root.stash_file("/etc/ld.so.preload"):
+                root.run(["apt", "update"], check=True)
+                root.run_actions((
+                    AptInstall(
+                        name="Install Qt5 build dependencies",
+                        packages=[
+                            # qt5-default build-dependencies in Debian, minus packages that bring in Qt
+                            # tools and libraries from Debian, like pkg-kde-tools
+                            #
+                            # Grouping follows documentation on https://wiki.qt.io/Building_Qt_5_from_Git
+                            "default-libmysqlclient-dev", "firebird-dev", "freetds-dev",
+                            "libpq-dev", "libsqlite3-dev", "unixodbc-dev",
+                            "libasound2-dev", "libpulse-dev",
+                            "libatspi2.0-dev",
+                            "libcups2-dev",
+                            "libdbus-1-dev",
+                            "libdouble-conversion-dev",
+                            "libfontconfig1-dev", "libfreetype6-dev",
+                            "libgbm-dev",
+                            "libgl1-mesa-dev", "libgles2-mesa-dev", "libglu1-mesa-dev",
+                            "libglib2.0-dev", "libgtk-3-dev",
+                            "libharfbuzz-dev",
+                            "libicu-dev",
+                            "libjpeg-dev", "libpng-dev",
+                            "libpcre2-dev",
+                            "libproxy-dev",
+                            "libssl-dev",
+                            "zlib1g-dev",
+                            "libmtdev-dev",
+                            "libinput-dev",
+                            "libudev-dev",
+                            "libvulkan-dev",
+                            "libx11-dev", "libx11-xcb-dev", "libxcb-icccm4-dev", "libxcb-image0-dev",
+                            "libxcb-keysyms1-dev", "libxcb-randr0-dev", "libxcb-render-util0-dev",
+                            "libxcb-render0-dev", "libxcb-shape0-dev", "libxcb-shm0-dev", "libxcb-sync-dev",
+                            "libxcb-xfixes0-dev", "libxcb-xinerama0-dev", "libxcb-xkb-dev", "libxcb1-dev",
+                            "libxext-dev", "libxi-dev", "libxkbcommon-dev", "libxkbcommon-x11-dev",
+                            "libxrender-dev",
+                            "publicsuffix",
+                            # More libxcb
+                            "libxcb-glx0-dev", "libxcb-xinput-dev",
+                            # Qt Webkit build-dependencies
+                            "flex", "bison", "gperf", "libxslt1-dev", "ruby",
+                            # Qt WebEngine build-dependencies
+                            "libxcursor-dev", "libxcomposite-dev", "libxdamage-dev", "libxrandr-dev", "libcap-dev",
+                            "libxtst-dev", "libpci-dev", "libnss3-dev", "libxss-dev", "libegl1-mesa-dev",
+                            "libnss3-dev",
+                            # Qt Multimedia build-dependencies
+                            "libgstreamer-plugins-base1.0-dev", "libgstreamer1.0-dev",
+                            # These libraries aren't necessarily documented but config looks for them
+                            "libts-dev", "libmng-dev", "libwebp-dev", "libbluetooth-dev", "libpoppler-cpp-dev",
+                            "libjsoncpp-dev", "libevent-dev", "libxml2-dev", "libminizip-dev", "ninja-build",
+                            "libre2-dev", "libprotobuf-dev", "libsnappy-dev", "libopus-dev",
+                            "libdrm-dev", "libzstd-dev", "libsystemd-dev", "flite1-dev", "libspeechd-dev",
+                            "libavcodec-dev", "libavdevice-dev", "libavfilter-dev", "libavformat-dev",
+                            "libavresample-dev", "libavutil-dev",
+                        ]),
+                    AptRemove(
+                        name="Remove libraspberrypi-dev that breaks Qt5 build",
+                        purge=True,
+                        packages=[
+                            "libraspberrypi-dev",
+                        ]),
+                ))
+
+
+class Extract(ImageCommand):
+    """
+    Extract the contents of the Raspberry Pi OS filesystem to the given directory
+    """
+    def run(self):
+        disk = RaspiImage(self.args.image)
+        with disk.mount() as root:
+            subprocess.run([
+                "rsync",
+                # "--human-readable", "--progress", "--verbose",
+                "--one-file-system",
+                "--archive", "--hard-links", "--acls", "--xattrs", "--sparse",
+                "--numeric-ids", "--delete",
+                root.root + "/", self.args.dest], check=True)
+
+    @classmethod
+    def make_subparser(cls, subparsers):
+        parser = super().make_subparser(subparsers)
+        parser.add_argument("dest", action="store", help="Path where to copy the image contents")
+        return parser
+
+
+def main():
+    parser = argparse.ArgumentParser(description="Raspberry Pi OS setup tool")
+    subparsers = parser.add_subparsers(help="sub-command help", dest="command")
+
+    Shell.make_subparser(subparsers)
+    Provision.make_subparser(subparsers)
+    Extract.make_subparser(subparsers)
+
+    args = parser.parse_args()
+    if args.command is None:
+        parser.print_help()
+    else:
+        handler = args.handler(args)
+        return handler.run()
+
+
+if __name__ == "__main__":
+    try:
+        sys.exit(main())
+    except Fail as e:
+        print(e, file=sys.stderr)
+        sys.exit(1)

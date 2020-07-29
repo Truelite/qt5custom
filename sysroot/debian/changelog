@@ -1,0 +1,5 @@
+qt-raspi-sysroot (1.0) unstable; urgency=medium
+
+  * Initial version
+
+ -- Enrico Zini <enrico@debian.org>  Mon, 09 Mar 2020 14:44:58 +0100
