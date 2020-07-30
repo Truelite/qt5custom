@@ -30,6 +30,7 @@ override_dh_auto_configure:
 		    -commercial \
 	            -confirm-license \
 	            -prefix "/opt/qt5custom-armhf" \
+		    -hostprefix "/opt/qt5custom-cross" \
 	            -sysconfdir "/etc/xdg" \
 	            -platform $(platform_arg) \
 		    -no-strip \
@@ -65,29 +66,20 @@ override_dh_auto_install-arch:
 	# Configuration file for qtchooser
 	mkdir -p $(CURDIR)/debian/tmp/usr/lib/$(DEB_HOST_MULTIARCH)/qtchooser
 	mkdir -p $(CURDIR)/debian/tmp/usr/share/qtchooser/
-	echo "/opt/qt5custom-armhf/bin" > $(CURDIR)/debian/tmp/usr/share/qtchooser/qt5custom_armhf-$(DEB_HOST_MULTIARCH).conf
-	echo "/opt/qt5custom-armhf/lib" >> $(CURDIR)/debian/tmp/usr/share/qtchooser/qt5custom_armhf-$(DEB_HOST_MULTIARCH).conf
+	echo "/opt/qt5custom-cross/bin" > $(CURDIR)/debian/tmp/usr/share/qtchooser/qt5custom_armhf-$(DEB_HOST_MULTIARCH).conf
+	echo "/opt/qt5custom-cross/lib" >> $(CURDIR)/debian/tmp/usr/share/qtchooser/qt5custom_armhf-$(DEB_HOST_MULTIARCH).conf
 	ln -s /usr/share/qtchooser/qt5custom_armhf-$(DEB_HOST_MULTIARCH).conf $(CURDIR)/debian/tmp/usr/lib/$(DEB_HOST_MULTIARCH)/qtchooser/qt5custom_armhf.conf
 	
-	# Remove leftover directories
-	find $(CURDIR)/debian/tmp/opt/qt5custom-armhf/lib/qt5custom -depth -type d \( -false \
-	  -o -name .moc\* \
-	  -o -name .obj\* \
-	  -o -name .pch \
-	  -o -name .rcc \
-	\) -print0 | xargs -0 rm -rf
-	
 	# Remove libtool-like files
-	rm -f debian/tmp/opt/qt5custom-armhf/lib/*.la
+	rm -f debian/tmp/opt/qt5custom-cross/lib/*.la
 	
 	# There is also no need to install libQtBootstrap. As it's name indicates it's
 	# only used to bootstrap qt.
-	rm -fv debian/tmp/opt/qt5custom-armhf/lib/libQt5Bootstrap*
-	rm -fv debian/tmp/opt/qt5custom-armhf/lib/pkgconfig/Qt5Bootstrap.pc
+	rm -fv debian/tmp/opt/qt5custom-cross/lib/libQt5Bootstrap*
 	
 	# See https://bugs.debian.org/914019
 	sed -i 's,-fdebug-prefix-map=$(CURDIR)=. ,,' \
-		debian/tmp/opt/qt5custom-armhf/mkspecs/qmodule.pri
+		debian/tmp/opt/qt5custom-cross/mkspecs/qmodule.pri
 
 override_dh_auto_install-indep:
 	dh_auto_build -- INSTALL_ROOT=$(CURDIR)/debian/tmp install_docs
@@ -99,6 +91,9 @@ override_dh_makeshlibs:
 	dh_makeshlibs -V -XlibQt5EglFSDeviceIntegration -XlibQt5EglFsKmsSupport -XlibQt5XcbQpa
 
 override_dh_shlibdeps:
-	dh_shlibdeps -X /lib/ -X /examples/ -X bin/xmlpatterns -X bin/qtplugininfo -X bin/qtdiag -X bin/qmlscene -X bin/qdbus -X bin/qml -X bin/qmlpreview -X bin/qdbusviewer -X bin/canbusutil -X bin/sdpscanner -X bin/qtpaths -X bin/designer -X /plugins/ -X /qml/
+	dh_shlibdeps -X /opt/qt5custom-armhf/
 
 override_dh_strip:
+
+override_dh_builddeb:
+	dh_builddeb -- -Zgzip
